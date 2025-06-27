@@ -12,9 +12,9 @@ import {
   Button,
   useToast,
   Spinner,
-  Divider,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { API_ENDPOINTS } from "../api"; // Certifique-se que o caminho está correto
 
 export default function VincularUser() {
   const [users, setUsers] = useState([]);
@@ -25,18 +25,17 @@ export default function VincularUser() {
   const [lastAction, setLastAction] = useState(null);
 
   const toast = useToast();
-
   const bgBox = useColorModeValue("white", "gray.700");
   const boxHover = useColorModeValue("gray.50", "gray.600");
   const borderColor = useColorModeValue("gray.200", "gray.500");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/associar/listar_users.php")
+    fetch(API_ENDPOINTS.listarUsuarios)
       .then((res) => res.json())
       .then(setUsers)
       .catch((err) => console.error("Erro ao buscar usuários:", err));
 
-    fetch("http://localhost:8000/api/associar/listar_unidades.php")
+    fetch(API_ENDPOINTS.listarUnidades)
       .then((res) => res.json())
       .then(setUnidades)
       .catch((err) => console.error("Erro ao buscar unidades:", err));
@@ -44,7 +43,7 @@ export default function VincularUser() {
 
   useEffect(() => {
     users.forEach((user) => {
-      fetch(`http://localhost:8000/api/associar/listar_vinculos.php?user_id=${user.id}`)
+      fetch(API_ENDPOINTS.listarVinculos(user.id))
         .then((res) => res.json())
         .then((data) =>
           setVinculos((prev) => ({
@@ -60,13 +59,12 @@ export default function VincularUser() {
 
   const toggleVinculo = async (userId, unidadeId) => {
     const vinculado = vinculos[userId]?.includes(unidadeId);
-
     setLoading(true);
     setError(null);
     setLastAction({ userId, unidadeId });
 
     try {
-      const response = await fetch("http://localhost:8000/api/associar/vincular_user_unidade.php", {
+      const response = await fetch(API_ENDPOINTS.vincularUsuario, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -76,9 +74,7 @@ export default function VincularUser() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
       setVinculos((prev) => {
         const atual = prev[userId] || [];
@@ -176,3 +172,4 @@ export default function VincularUser() {
     </Box>
   );
 }
+// VincularUser.jsx
