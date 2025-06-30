@@ -13,6 +13,8 @@ export const API_ENDPOINTS = {
   gerarRelatorioMensal: `${API_URL}/relatorios/gerar_relatorio_mensal.php`,
   listarVinculos: (userId) => `${API_URL}/associar/listar_vinculos.php?user_id=${userId}`,
   vincularUsuario: `${API_URL}/associar/vincular_user_unidade.php`,
+  login: `${API_URL}/auth/login.php`,
+  logout: `${API_URL}/auth/logout.php`,
 
 };
 export const API_HEADERS = {

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../api"; // Certifique-se de que o caminho está correto
 
 const AuthContext = createContext();
 
@@ -17,26 +18,24 @@ export function AuthProvider({ children }) {
   }, []);
 
   function login(userData) {
-  setUser(userData);
-  localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
 
-  if (userData.senha_temporaria) {
-    navigate("/alterar-senha");
-    return;
+    if (userData.senha_temporaria) {
+      navigate("/alterar-senha");
+      return;
+    }
+
+    // Redirecionamento por role
+    if (userData.role === "adm") navigate("/adm");
+    else if (userData.role === "gerencia") navigate("/gerencia");
+    else if (userData.role === "user") navigate("/user");
+    else navigate("/");
   }
-
-  // Redirecionamento por role
-  if (userData.role === "adm") navigate("/adm");
-  else if (userData.role === "gerencia") navigate("/gerencia");
-  else if (userData.role === "user") navigate("/user");
-  else navigate("/");
-}
-
 
   async function logout() {
     try {
-      await fetch("http://localhost:8000/api/Auth/logout.php", {
-        
+      await fetch(API_ENDPOINTS.logout, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

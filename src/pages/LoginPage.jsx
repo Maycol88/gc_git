@@ -183,8 +183,7 @@ export default function LoginPage() {
         <ButtonRow>
           <Button type="submit" disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}
-          </Button>
-          <SignupLink to="/register">Bora trocar sua senha?</SignupLink>
+          </Button>          
         </ButtonRow>
       </FormContainer>
     </PageWrapper>
