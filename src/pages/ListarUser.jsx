@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../api";
 import {
   Box,
   Table,
@@ -11,19 +12,16 @@ import {
   Button,
   Heading,
   Flex,
-  IconButton,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
   ModalBody,
   ModalFooter,
   Input,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 export default function ListarUser() {
   const [usuarios, setUsuarios] = useState([]);
@@ -33,7 +31,7 @@ export default function ListarUser() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/usuarios/listar_users.php")
+      .get(API_ENDPOINTS.listarUsuarios)
       .then((res) => setUsuarios(res.data))
       .catch((err) => console.error("Erro ao carregar usuários:", err));
   }, []);
@@ -57,7 +55,7 @@ export default function ListarUser() {
     }
 
     try {
-      await axios.put("http://localhost:8000/api/usuarios/editar_user.php", {
+      await axios.put(API_ENDPOINTS.editarUsuario, {
         id: usuarioEditar.id,
         nome: nomeEditado.trim(),
       });
@@ -80,9 +78,9 @@ export default function ListarUser() {
     if (!confirmar) return;
 
     try {
-      await axios.delete("http://localhost:8000/api/usuarios/remover_user.php", {
-  data: { id } // <- passa o id no corpo da requisição
-});
+      await axios.delete(API_ENDPOINTS.removerUsuario, {
+        data: { id }, // passa o id no corpo da requisição
+      });
 
       setUsuarios((oldUsuarios) => oldUsuarios.filter((u) => u.id !== id));
     } catch (error) {
@@ -99,60 +97,45 @@ export default function ListarUser() {
       <Table variant="striped" colorScheme="blue">
         <Thead>
           <Tr>
-            
             <Th>Nome</Th>
             <Th>Ações</Th>
           </Tr>
         </Thead>
         <Tbody>
           {usuarios.map((user) => (
-            <Tr key={user.id}>              
+            <Tr key={user.id}>
               <Td>{user.nome}</Td>
               <Td>
-  <Flex gap={2}>
-    <Button
-      colorScheme="blue"
-      size="sm"
-      onClick={() => abrirModalEdicao(user)}
-      aria-label="Editar usuário"
-    >
-      Editar
-    </Button>
-    <Button
-      colorScheme="red"
-      size="sm"
-      onClick={() => removerUsuario(user.id)}
-      aria-label="Remover usuário"
-    >
-      Excluir
-    </Button>
-  </Flex>
-</Td>
-
-
+                <Flex gap={2}>
+                  <Button
+                    colorScheme="blue"
+                    size="sm"
+                    onClick={() => abrirModalEdicao(user)}
+                    aria-label="Editar usuário"
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    size="sm"
+                    onClick={() => removerUsuario(user.id)}
+                    aria-label="Remover usuário"
+                  >
+                    Excluir
+                  </Button>
+                </Flex>
+              </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={fecharModal}
-        isCentered
-      >
+      <Modal isOpen={isOpen} onClose={fecharModal} isCentered>
         <ModalOverlay />
-        <ModalContent
-          maxW="500px"
-          w="90%"
-          margin="auto"
-          position="relative"
-          top="auto"
-          left="auto"
-          transform="none"
-        >
+        <ModalContent maxW="500px" w="90%" margin="auto" position="relative" top="auto" left="auto" transform="none">
           <ModalHeader textAlign="center" fontSize="lg" fontWeight="bold">
             Editar Usuário
-          </ModalHeader>         
+          </ModalHeader>
 
           <ModalBody>
             <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
@@ -160,11 +143,7 @@ export default function ListarUser() {
                 <Text fontWeight="semibold" mb={1}>
                   Nome
                 </Text>
-                <Input
-                  value={nomeEditado}
-                  onChange={(e) => setNomeEditado(e.target.value)}
-                  autoFocus
-                />
+                <Input value={nomeEditado} onChange={(e) => setNomeEditado(e.target.value)} autoFocus />
               </Box>
             </Box>
           </ModalBody>

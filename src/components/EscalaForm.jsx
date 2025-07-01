@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_ENDPOINTS } from "../api";
 
 export default function EscalaForm() {
   const [users, setUsers] = useState([]);
@@ -12,13 +13,15 @@ export default function EscalaForm() {
   const [mensagem, setMensagem] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/associar/listar_users.php")
+    fetch(API_ENDPOINTS.listarUsuarios)
       .then(res => res.json())
-      .then(setUsers);
+      .then(setUsers)
+      .catch(err => console.error("Erro ao carregar usuários:", err));
 
-    fetch("http://localhost:8000/api/associar/listar_unidades.php")
+    fetch(API_ENDPOINTS.listarUnidades)
       .then(res => res.json())
-      .then(setUnidades);
+      .then(setUnidades)
+      .catch(err => console.error("Erro ao carregar unidades:", err));
   }, []);
 
   const handleChange = (e) => {
@@ -30,7 +33,7 @@ export default function EscalaForm() {
     setMensagem("Salvando...");
 
     try {
-      const res = await fetch("http://localhost:8000/api/escala/escala.php", {
+      const res = await fetch(API_ENDPOINTS.listarEscalas, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

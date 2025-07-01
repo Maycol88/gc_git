@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserMenu from "../components/UserMenu";
+import { API_ENDPOINTS } from "../api";
 
 export default function RegistroPontoAdmin({ setView }) {
   const [usuarios, setUsuarios] = useState([]);
@@ -20,7 +21,7 @@ export default function RegistroPontoAdmin({ setView }) {
   useEffect(() => {
     async function fetchUsuarios() {
       try {
-        const res = await fetch("http://localhost:8000/api/usuarios/listar_users.php");
+        const res = await fetch(API_ENDPOINTS.listarUsuarios);
         const data = await res.json();
         console.log("Usuários recebidos:", data); // DEBUG
         setUsuarios(data);
@@ -31,7 +32,7 @@ export default function RegistroPontoAdmin({ setView }) {
 
     async function fetchUnidades() {
       try {
-        const res = await fetch("http://localhost:8000/api/ponto/listar.php?nome_unidade=1");
+        const res = await fetch(`${API_ENDPOINTS.listarUnidades}?nome_unidade=1`);
         const data = await res.json();
         setUnidades(data);
       } catch {
@@ -45,7 +46,7 @@ export default function RegistroPontoAdmin({ setView }) {
 
   function formatDateTimeLocalToBackend(dtLocal) {
     if (!dtLocal) return null;
-    return dtLocal.replace('T', ' ') + ':00';
+    return dtLocal.replace("T", " ") + ":00";
   }
 
   const registrarPonto = async () => {
@@ -67,7 +68,7 @@ export default function RegistroPontoAdmin({ setView }) {
     };
 
     try {
-      const res = await fetch("http://localhost:8000/api/ponto/registrar_manual.php", {
+      const res = await fetch(API_ENDPOINTS.registrarManual, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -78,7 +79,7 @@ export default function RegistroPontoAdmin({ setView }) {
       if (res.ok) {
         setMensagem(json.message || "Ponto registrado com sucesso.");
         setErro("");
-        // Limpar todos os campos
+        // Limpar campos
         setSelectedUserId("");
         setUnidadeId("");
         setTipoJornada(null);
@@ -96,9 +97,16 @@ export default function RegistroPontoAdmin({ setView }) {
 
   return (
     <div className="page-center">
-      <header style={{ display: "flex", justifyContent: "space-between", width: "100%", maxWidth: "500px", marginBottom: "px" }}>
+      <header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          maxWidth: "500px",
+          marginBottom: "px",
+        }}
+      >
         <h2>Registro de Ponto Manual</h2>
-        
       </header>
 
       <section style={{ width: "100%", maxWidth: "500px" }}>
@@ -106,25 +114,28 @@ export default function RegistroPontoAdmin({ setView }) {
         <select value={selectedUserId} onChange={(e) => setSelectedUserId(e.target.value)}>
           <option value="">Selecione o usuário</option>
           {usuarios
-  .filter((u) => {
-    const role = u?.role?.toLowerCase?.();
-    return role === "user" || role === "gerencia";
-  })
-  .map((u) => (
-    <option key={u.id} value={u.id}>{u.nome}</option>
-  ))}
-
+            .filter((u) => {
+              const role = u?.role?.toLowerCase?.();
+              return role === "user" || role === "gerencia";
+            })
+            .map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.nome}
+              </option>
+            ))}
         </select>
 
         <label>Unidade:</label>
         <select value={unidadeId} onChange={(e) => setUnidadeId(e.target.value)}>
           <option value="">Selecione a unidade</option>
           {unidades.map((u) => (
-            <option key={u.id} value={u.id}>{u.nome_unidade}</option>
+            <option key={u.id} value={u.id}>
+              {u.nome_unidade}
+            </option>
           ))}
         </select>
 
-       <div style={{ display: "flex", gap: "20px", margin: "10px 0", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "20px", margin: "10px 0", flexWrap: "wrap" }}>
           {[8, 12].map((h) => (
             <label key={h}>
               <input
@@ -146,10 +157,18 @@ export default function RegistroPontoAdmin({ setView }) {
           {tipoJornada === 8 && (
             <>
               <label>Entrada Almoço:</label>
-              <input type="datetime-local" value={entradaAlmoco} onChange={(e) => setEntradaAlmoco(e.target.value)} />
+              <input
+                type="datetime-local"
+                value={entradaAlmoco}
+                onChange={(e) => setEntradaAlmoco(e.target.value)}
+              />
 
               <label>Saída Almoço:</label>
-              <input type="datetime-local" value={saidaAlmoco} onChange={(e) => setSaidaAlmoco(e.target.value)} />
+              <input
+                type="datetime-local"
+                value={saidaAlmoco}
+                onChange={(e) => setSaidaAlmoco(e.target.value)}
+              />
             </>
           )}
 
@@ -157,7 +176,9 @@ export default function RegistroPontoAdmin({ setView }) {
           <input type="datetime-local" value={saida} onChange={(e) => setSaida(e.target.value)} />
         </div>
 
-        <button onClick={registrarPonto} style={{ marginTop: "15px" }}>Registrar Ponto</button>
+        <button onClick={registrarPonto} style={{ marginTop: "15px" }}>
+          Registrar Ponto
+        </button>
 
         {mensagem && <p style={{ color: "var(--success)" }}>{mensagem}</p>}
         {erro && <p style={{ color: "var(--danger)" }}>{erro}</p>}

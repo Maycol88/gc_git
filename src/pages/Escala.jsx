@@ -1,7 +1,9 @@
+// src/pages/Escala.jsx
 import React from "react"; 
 import { useEffect, useState, useMemo } from "react";
 import { format, getDaysInMonth, isWeekend, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { API_ENDPOINTS } from "../api";
 import {
   Box,
   Select,
@@ -58,7 +60,7 @@ export default function Escala() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/associar/listar_unidades.php")
+    fetch(API_ENDPOINTS.listarUnidades)
       .then((res) => res.json())
       .then(setUnidades)
       .catch((err) => console.error("Erro ao carregar unidades:", err));
@@ -73,14 +75,10 @@ export default function Escala() {
 
     setLoadingUsers(true);
     Promise.all([
-      fetch(
-        `http://localhost:8000/api/associar/get_users_by_unidade.php?unidade_id=${selectedUnidade}`
-      )
+      fetch(`${API_ENDPOINTS.getUsersByUnidade}?unidade_id=${selectedUnidade}`)
         .then((res) => res.json())
         .catch(() => []),
-      fetch(
-        `http://localhost:8000/api/associar/get_turnos.php?unidade_id=${selectedUnidade}`
-      )
+      fetch(`${API_ENDPOINTS.getTurnos}?unidade_id=${selectedUnidade}`)
         .then((res) => res.json())
         .catch(() => []),
     ])
@@ -101,7 +99,7 @@ export default function Escala() {
 
   const salvarTurno = (userId, data, turno) => {
     if (!turno) return;
-    fetch("http://localhost:8000/api/associar/salvar_turno.php", {
+    fetch(API_ENDPOINTS.salvarTurno, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -262,7 +260,7 @@ export default function Escala() {
     setTurnos({});
     setEscalaRapida({});
 
-    fetch("http://localhost:8000/api/associar/limpar_turnos.php", {
+    fetch(API_ENDPOINTS.limparTurnos, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ unidade_id: selectedUnidade }),

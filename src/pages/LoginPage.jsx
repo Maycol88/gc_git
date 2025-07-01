@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { cpf as cpfValidator } from "cpf-cnpj-validator";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import { API_ENDPOINTS, API_HEADERS } from "../api";
 
 const fadeInUp = keyframes`
   from {
@@ -132,7 +133,7 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      const res = await fetch("https://gc-back.onrender.com/auth/login.php", {
+      const res = await fetch(API_ENDPOINTS.login, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // envia cookie da sessão

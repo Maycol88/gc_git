@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../context/AuthContext"; // ajuste o caminho conforme sua estrutura
+import { useAuth } from "../context/AuthContext";
+import { API_ENDPOINTS, API_HEADERS } from "../api";
 
 const Form = styled.form`
   max-width: 400px;
@@ -43,7 +44,7 @@ export default function AlterarSenha() {
   const [confirmacao, setConfirmacao] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { user, login } = useAuth(); // pega o user e o método login
+  const { user, login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,9 +57,9 @@ export default function AlterarSenha() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/auth/alterar_senha.php", {
+      const res = await fetch(API_ENDPOINTS.alterarSenha, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: API_HEADERS,
         body: JSON.stringify({
           id: user.id,
           nova_senha: senha,
@@ -69,10 +70,8 @@ export default function AlterarSenha() {
 
       if (res.ok) {
         alert("Senha alterada com sucesso!");
-
-        // Atualiza localmente o user no contexto e redireciona
         const userAtualizado = { ...user, senha_temporaria: false };
-        login(userAtualizado); // reaproveita login() que redireciona por role
+        login(userAtualizado);
       } else {
         alert(data.error || "Erro ao alterar senha");
       }

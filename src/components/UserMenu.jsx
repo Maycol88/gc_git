@@ -16,6 +16,7 @@ import {
   AlertDialogFooter,
 } from "@chakra-ui/react";
 import { useAuth } from "../context/AuthContext";
+import { API_ENDPOINTS } from "../api";
 
 export default function UserMenu() {
   const { user, logout: authLogout } = useAuth();

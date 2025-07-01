@@ -1,14 +1,15 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { API_ENDPOINTS } from "../api";
 
 export default function RelatorioTurnos() {
   const [dados, setDados] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/associar/relatorio_turnos.php")
+    axios.get(API_ENDPOINTS.relatorioTurnos)
       .then(res => setDados(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error("Erro ao carregar relatório:", err));
   }, []);
 
   return (
@@ -18,3 +19,4 @@ export default function RelatorioTurnos() {
     </div>
   );
 }
+// Styled components para estilização

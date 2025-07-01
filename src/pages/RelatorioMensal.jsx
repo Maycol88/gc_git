@@ -1,5 +1,7 @@
+// src/pages/RelatorioMensal.jsx
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { API_ENDPOINTS, API_HEADERS } from "../api";
 import {
   Box,
   Input,
@@ -64,7 +66,7 @@ export default function RelatorioMensal() {
       const mes = mesSelecionado.slice(5, 7);
 
       const response = await fetch(
-        `http://localhost:8000/api/ponto/listar.php?mes=${mes}&ano=${ano}`
+        `${API_ENDPOINTS.listarPontos}?mes=${mes}&ano=${ano}`
       );
       const json = await response.json();
       if (!Array.isArray(json)) throw new Error("Resposta inesperada da API");
@@ -130,9 +132,7 @@ export default function RelatorioMensal() {
         saida: combinarDataHora(registroAtual.saida, registroAtual.saidaHoraEditada || formatHora(registroAtual.saida)),
       };
 
-      const response = await fetch(
-        "http://localhost:8000/api/ponto/editar_ponto.php",
-        {
+      const response = await fetch(API_ENDPOINTS.editarPonto, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
@@ -156,9 +156,7 @@ export default function RelatorioMensal() {
     if (!confirmar) return;
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/ponto/remover_ponto.php",
-        {
+      const response = await fetch(API_ENDPOINTS.removerPonto, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id }),

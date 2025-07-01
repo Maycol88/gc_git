@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
+import { API_ENDPOINTS } from "../api"; // usa o endpoint centralizado
 
 const Form = styled.form`
   max-width: 400px;
@@ -20,7 +21,7 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 6px;
   transition: border-color 0.3s ease;
-  
+
   &:focus {
     border-color: #4285f4;
     outline: none;
@@ -53,9 +54,10 @@ export default function RegisterForm() {
   const [form, setForm] = useState({
     nome: "",
     cpf: "",
-    email: "",    
+    email: "",
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,11 +66,10 @@ export default function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/auth/register.php", {
+      const res = await fetch(API_ENDPOINTS.register, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -83,7 +84,8 @@ export default function RegisterForm() {
 
       if (res.ok) {
         alert("Usuário cadastrado com sucesso. Verifique o e-mail para a senha.");
-        setForm({ nome: "", cpf: "", email: "" }); // limpa o formulário
+        setForm({ nome: "", cpf: "", email: "" });
+        navigate("/login");
       } else {
         alert(data.error || "Erro ao cadastrar");
       }
@@ -121,7 +123,6 @@ export default function RegisterForm() {
         required
         autoComplete="email"
       />
-
       <Button type="submit" disabled={loading}>
         {loading ? "Cadastrando..." : "Cadastrar"}
       </Button>

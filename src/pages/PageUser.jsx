@@ -1,8 +1,10 @@
+// src/pages/RegistroPonto.jsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import UserMenu from "../components/UserMenu";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { API_ENDPOINTS, API_HEADERS } from "../api";
 
 // Modal bloqueante
 const ModalBackdrop = styled.div`
