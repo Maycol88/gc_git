@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_ENDPOINTS } from "../api"; // Certifique-se de que o caminho está correto
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+ // Certifique-se de que o caminho está correto
 
 const AuthContext = createContext();
 

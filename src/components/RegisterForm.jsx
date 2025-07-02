@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
-import { API_ENDPOINTS } from "../api"; // usa o endpoint centralizado
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+ // usa o endpoint centralizado
 
 const Form = styled.form`
   max-width: 400px;

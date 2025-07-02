@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { API_ENDPOINTS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 
 export default function EscalaForm() {
   const [users, setUsers] = useState([]);

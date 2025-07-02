@@ -1,7 +1,8 @@
 // src/pages/RelatorioMensal.jsx
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { API_ENDPOINTS, API_HEADERS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 import {
   Box,
   Input,

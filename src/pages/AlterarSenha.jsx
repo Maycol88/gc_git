@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../context/AuthContext";
-import { API_ENDPOINTS, API_HEADERS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 
 const Form = styled.form`
   max-width: 400px;

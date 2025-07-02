@@ -14,7 +14,8 @@ import {
   Spinner,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { API_ENDPOINTS } from "../api"; // Certifique-se que o caminho está correto
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+ // Certifique-se que o caminho está correto
 
 export default function VincularUser() {
   const [users, setUsers] = useState([]);

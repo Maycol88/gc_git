@@ -3,7 +3,8 @@ import React from "react";
 import { useEffect, useState, useMemo } from "react";
 import { format, getDaysInMonth, isWeekend, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { API_ENDPOINTS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 import {
   Box,
   Select,

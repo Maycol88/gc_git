@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { API_ENDPOINTS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 
 export default function RelatorioTurnos() {
   const [dados, setDados] = useState([]);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserMenu from "../components/UserMenu";
-import { API_ENDPOINTS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 
 export default function RegistroPontoAdmin({ setView }) {
   const [usuarios, setUsuarios] = useState([]);

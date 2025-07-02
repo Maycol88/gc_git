@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { API_ENDPOINTS, API_HEADERS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 
 export default function CargaHoraria() {
   const [usuarios, setUsuarios] = useState([]);

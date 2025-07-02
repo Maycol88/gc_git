@@ -3,7 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import UserMenu from "../components/UserMenu";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { API_ENDPOINTS } from "../api"; // importei só o que usa
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+ // importei só o que usa
 
 const ModalBackdrop = styled.div`
   position: fixed;

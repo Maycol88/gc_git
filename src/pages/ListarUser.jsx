@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_ENDPOINTS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 import {
   Box,
   Table,

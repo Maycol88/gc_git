@@ -3,7 +3,8 @@ import styled, { keyframes } from "styled-components";
 import { cpf as cpfValidator } from "cpf-cnpj-validator";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import { API_ENDPOINTS, API_HEADERS } from "../api";
+import { API_ENDPOINTS, API_HEADERS } from '@app/api';
+
 
 const fadeInUp = keyframes`
   from {
