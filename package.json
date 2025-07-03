@@ -21,10 +21,11 @@
     "styled-components": "^6.1.18"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "npx --ignore-scripts vite build",
-    "preview": "vite"
-  },
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite"
+}
+,
   "browserslist": {
     "production": [
       ">0.2%",
