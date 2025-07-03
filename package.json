@@ -22,8 +22,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npx vite build",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite"
   },
   "browserslist": {
     "production": [
@@ -40,5 +40,8 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.5.1",
     "vite": "^6.3.5"
-  }
+  },
+  "engines": {
+  "node": "18.x"
+}
 }
