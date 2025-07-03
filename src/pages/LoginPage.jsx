@@ -151,7 +151,7 @@ export default function LoginPage() {
 }
 
     } catch (error) {
-      alert("Erro ao conectar com o servidor");
+      alert("Oi Maycol");
     } finally {
       setLoading(false);
     }
